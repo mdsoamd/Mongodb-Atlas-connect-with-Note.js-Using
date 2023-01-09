@@ -7,6 +7,10 @@ Yah hai MongoDB Atlas Database ka password --> wtGZJPenTkq6r1LE.
 Server run command --> npm run dev
 
 
+- ["HTTP response status codes find website link click now"]("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status")
+
+
+
  - First install this is packages
   ```sh
    npm i dotenv
