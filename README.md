@@ -8,7 +8,7 @@ Server run command --> npm run dev
 
 
 
-- [HTTP : response status codes find website link click now]("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status")
+- [HTTP : response status codes find website link click now](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 
 
 
