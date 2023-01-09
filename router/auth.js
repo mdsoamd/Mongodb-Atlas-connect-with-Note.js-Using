@@ -30,10 +30,10 @@ router.post('/register',(req,resp)=>{
    User.findOne({email:email})
    .then((userExist)=>{
       if(userExist){
-        return resp.status(422).json({error:"Email already Exist"});    //* <-- User Database mein Pahle Se maujood Hai To Yahi se return ho jaega
+        return resp.status(422).json({error:"Email already Exist"});    //* <-- MongoDB Atlas ka User Database mein Pahle Se maujood Hai To Yahi se return ho jaega
     }
     
-    const user = new User({name,email,phone,work,password,cpassword});
+    const user = new User({name,email,phone,work,password,cpassword});    //* <-- Yah hai MongoDB Atlas ka database mein user ka data add Karne Ka Tarika
      
     user.save().then(()=>{
         resp.status(201).json({message:"user registered sucessfully"});
