@@ -54,7 +54,7 @@ router.get('/getData',async(req,resp)=>{         //* <-- User data get
 
 
 
-
+//TODO crate login route
 //* promise & Async-Await use  (yah Tarika code Ko Chhota banata hai)
 router.post('/register',async(req,resp)=>{
 
@@ -90,7 +90,46 @@ router.post('/register',async(req,resp)=>{
    
    
 
-})
+});
+
+
+
+
+
+//TODO crate login route
+router.post("/login",async(req,resp)=>{
+    
+
+    try{
+
+    const {email,password} = req.body;
+
+    if(!email || !password){
+        return resp.status(400).json({error:"Please Filled the data"});
+    }
+
+    const userLogin = await User.findOne({email:email});
+     
+    console.log(userLogin);
+
+    if(!userLogin){
+        console.log("no data");
+        resp.status(400).json({error:"User error"});
+    }else{
+        console.log("yes data");
+        resp.json({message:"user Signin successfully"});
+    }
+    
+    
+      
+    }catch(err){
+        console.log(err);
+    }
+    
+   
+});
+
+
 
 
 module.exports = router;
