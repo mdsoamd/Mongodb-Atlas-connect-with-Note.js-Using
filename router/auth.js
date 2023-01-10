@@ -72,13 +72,19 @@ router.post('/register',async(req,resp)=>{
 
     if(userExist){
         return resp.status(422).json({error:"Email already Exist"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
+    }else if(password != cpassword){
+        return resp.status(422).json({error:"Email already Exist not match password"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
+    }else{
+
+            
+        const user = new User({name,email,phone,work,password,cpassword});    //* <-- Yah hai MongoDB Atlas ka database mein user ka data add Karne Ka Tarika
+        //* yeha pe
+        await user.save();
+
+        resp.status(201).json({message:"user registered sucessfully"});
+
     }
 
-    const user = new User({name,email,phone,work,password,cpassword});    //* <-- Yah hai MongoDB Atlas ka database mein user ka data add Karne Ka Tarika
-
-     await user.save();
-
-     resp.status(201).json({message:"user registered sucessfully"});
     
     
 
