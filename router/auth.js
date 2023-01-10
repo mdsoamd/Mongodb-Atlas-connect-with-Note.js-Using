@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 
 require('../db/connect');   //* <-- yah hai db connect import & access Karne Ka Tarika
 
@@ -54,11 +55,15 @@ router.get('/getData',async(req,resp)=>{         //* <-- User data get
 
 
 
-//TODO crate login route
+
+
+
+//TODO crate register route
 //* promise & Async-Await use  (yah Tarika code Ko Chhota banata hai)
 router.post('/register',async(req,resp)=>{
 
    const {name,email,phone,work,password,cpassword} = req.body
+
    if(!name || !email || !phone || !work || !password || !cpassword){
      return resp.status(422).json({error:"Please filled the field properly"});    //* <-- User Agar Ek bhi field film nahin kiya hai To Yahi se return ho jaega
    }
@@ -68,12 +73,14 @@ router.post('/register',async(req,resp)=>{
    try{
 
 
-   const userExist = await User.findOne({email:email})
+   const userExist = await User.findOne({email:email})  //* <--  This User Find Database
 
+
+  //* Check User Exist
     if(userExist){
         return resp.status(422).json({error:"Email already Exist"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
     }else if(password != cpassword){
-        return resp.status(422).json({error:"Email already Exist not match password"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
+        return resp.status(422).json({error:"Email already Exist not match password or cpassword"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
     }else{
 
             
@@ -86,7 +93,6 @@ router.post('/register',async(req,resp)=>{
     }
 
     
-    
 
    } catch(err){
      console.log(err)
@@ -97,6 +103,9 @@ router.post('/register',async(req,resp)=>{
    
 
 });
+
+
+
 
 
 
@@ -116,21 +125,33 @@ router.post("/login",async(req,resp)=>{
 
     const userLogin = await User.findOne({email:email});
      
-    console.log(userLogin);
+    if(userLogin){
 
-    if(!userLogin){
-        console.log("no data");
-        resp.status(400).json({error:"User error"});
+                              //*user password  compare database password
+    const isMatch = await bcrypt.compare(password,userLogin.password);        //* <-- hash Password compare karne ka Tarika          
+
+    //* password check
+    if(!isMatch){
+
+        resp.status(400).json({error:"Invalid Credientiats password"});
+
     }else{
-        console.log("yes data");
+
         resp.json({message:"user Signin successfully"});
+    }
+       
+    }else{
+
+       resp.status(400).json({error:"Invalid Credientiats Email"});
+
     }
     
     
-      
+ 
     }catch(err){
         console.log(err);
     }
+
     
    
 });
