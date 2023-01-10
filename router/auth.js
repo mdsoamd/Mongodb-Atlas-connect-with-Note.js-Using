@@ -80,7 +80,7 @@ router.post('/register',async(req,resp)=>{
     if(userExist){
         return resp.status(422).json({error:"Email already Exist"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
     }else if(password != cpassword){
-        return resp.status(422).json({error:"Email already Exist not match password or cpassword"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
+        return resp.status(422).json({error:"Not match Password or ConfirmPassword"});    //* <-- MongoDB Atlas ka Users Database mein Pahle Se yah user maujood & Exist Hai To Yahi se return ho jaega
     }else{
 
             
@@ -126,9 +126,22 @@ router.post("/login",async(req,resp)=>{
     const userLogin = await User.findOne({email:email});
      
     if(userLogin){
-
-                              //*user password  compare database password
+                                   //*user password  compare database password
     const isMatch = await bcrypt.compare(password,userLogin.password);        //* <-- hash Password compare karne ka Tarika          
+     
+
+    const token = await userLogin.generateAuthToken();  //* <-- Function generateAuthToken() call  (userSchema File This generateAuthToken() function available)
+
+
+
+    req.cookie("jwtoken",token,{ //* webBrowser user token store
+        expires: new Date(Date.now() +  25892000000),  //* <-- yah token 1 month ke bad expire ho jaega
+        httpOnly:true
+    })
+    
+
+    console.log(token);
+    
 
     //* password check
     if(!isMatch){
@@ -137,7 +150,7 @@ router.post("/login",async(req,resp)=>{
 
     }else{
 
-        resp.json({message:"user Signin successfully"});
+        resp.json({message:"user Signin successfully",token:token});
     }
        
     }else{
