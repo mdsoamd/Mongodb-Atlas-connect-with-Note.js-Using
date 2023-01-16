@@ -28,7 +28,11 @@ const userSchema = new mongoose.Schema({       //* <-- Yah hai User Schema defin
        required:true
     },
     
+    
 });
+
+
+
 
 const User = mongoose.model('USER',userSchema);
 
