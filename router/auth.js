@@ -134,10 +134,10 @@ router.post("/login",async(req,resp)=>{
 
 
 
-    req.cookie("jwtoken",token,{ //* webBrowser user token store
-        expires: new Date(Date.now() +  25892000000),  //* <-- yah token 1 month ke bad expire ho jaega
-        httpOnly:true
-    })
+    // req.cookie("jwtoken",token,{                     //* webBrowser user token store
+    //     expires: new Date(Date.now() +  25892000000),  //* <-- yah token 1 month ke bad expire ho jaega
+    //     httpOnly:true
+    // })
     
 
     console.log(token);

@@ -45,6 +45,8 @@ const userSchema = new mongoose.Schema({       //* <-- Yah hai User Schema defin
     
 });
 
+
+
 //* we are hashing the password or ( yah Hai password hash Karne Ka Tarika )  or ( This package install --> bcrypt)
 userSchema.pre('save',async function (next){     //* function Mein fat arrow use karne se this keyboard Kam Nahin karta  (matlab yah arrow =>)
    if(this.isModified('password')){
